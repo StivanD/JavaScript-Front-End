@@ -6,6 +6,6 @@ function solve(text) {
     }
 }
 
-solve('SplitMeIfYouCanHaHaYouCantOrYouCanC');
-solve('HoldTheDoor');
-solve('ThisIsSoAnnoyingToDo');
+// solve('SplitMeIfYouCanHaHaYouCantOrYouCan');
+// solve('HoldTheDoor');
+// solve('ThisIsSoAnnoyingToDo');
