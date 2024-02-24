@@ -1,4 +1,4 @@
-function formatGrade(grade) {
+function solve(grade) {
     if (grade < 3.00) {
         console.log("Fail (2)");
     }
@@ -16,6 +16,6 @@ function formatGrade(grade) {
     }
 }
 
-// formatGrade(3.33);
-// formatGrade(4.50);
-// formatGrade(2.99);
+// solve(3.33);
+// solve(4.50);
+// solve(2.99);
