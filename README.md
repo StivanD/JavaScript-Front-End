@@ -5,4 +5,3 @@ Here I'll be uploading solutions of the exercises from **JS Front-End** -  the s
 SoftUni - https://softuni.bg/
 
 Judge system - https://judge.softuni.org/
-
