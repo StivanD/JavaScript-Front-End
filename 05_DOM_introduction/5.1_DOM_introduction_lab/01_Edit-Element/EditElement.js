@@ -1,14 +1,14 @@
-function editElement(ref, match, replacer) {
+function editElement(element, match, replacer) {
     // This doesn't work in judge
-    // ref.textContent = ref.textContent.replaceAll(match, replacer);
+    // element.textContent = element.textContent.replaceAll(match, replacer);
     
     
     // Solution without RegEx
-    while (ref.textContent.includes(match)) {
-        ref.textContent = ref.textContent.replace(match, replacer);
+    while (element.textContent.includes(match)) {
+        element.textContent = element.textContent.replace(match, replacer);
     }
     
     // Solution with RegEx
-    // ref.textContent = ref.textContent.replace(new RegExp(match, 'g'), replacer);
+    // element.textContent = element.textContent.replace(new RegExp(match, 'g'), replacer);
     
 }
