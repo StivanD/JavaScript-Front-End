@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/JavaScript-Front-End.iml" filepath="$PROJECT_DIR$/.idea/JavaScript-Front-End.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Sofutni Python/.idea/Sofutni Python.iml" filepath="$PROJECT_DIR$/../Sofutni Python/.idea/Sofutni Python.iml" />
     </modules>
   </component>
 </project>
