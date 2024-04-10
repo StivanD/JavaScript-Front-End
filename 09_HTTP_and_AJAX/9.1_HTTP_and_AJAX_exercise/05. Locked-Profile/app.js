@@ -1,115 +1,107 @@
-function lockedProfile() {
-    async function fetchProfiles() {
-        try {
-            const response = await fetch('http://localhost:3030/jsonstore/advanced/profiles');
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching profiles:', error);
-        }
+async function lockedProfile() {
+    const baseUrl = "http://localhost:3030/jsonstore/advanced/profiles";
+
+    async function getUserData() {
+        const response = await fetch(baseUrl);
+        return await response.json();
     }
 
-    function createProfileCard(profile, index) {
-        const profileCard = document.createElement('div');
-        profileCard.classList.add('profile');
+    const userData = await getUserData();
+    const mainElement = document.getElementById("main");
 
-        const icon = document.createElement('img');
-        icon.src = "./iconProfile2.png";
-        icon.classList.add('userIcon');
-        profileCard.appendChild(icon);
+    Object.values(userData).forEach((user) => {
+        const userCard = document.createElement("div");
+        userCard.id = user._id;
+        userCard.classList.add("profile");
 
-        const lockLabel = document.createElement('label');
-        lockLabel.textContent = 'Lock';
-        profileCard.appendChild(lockLabel);
+        const userIcon = document.createElement("img");
+        userIcon.src = "./iconProfile2.png";
+        userIcon.classList.add("userIcon");
+        userCard.appendChild(userIcon);
 
-        const lockRadio = document.createElement('input');
-        lockRadio.type = 'radio';
-        lockRadio.name = `user${index}Locked`;
-        lockRadio.value = 'lock';
+        const lockLabel = document.createElement("label");
+        lockLabel.textContent = "Lock";
+        userCard.appendChild(lockLabel);
+
+        const lockRadio = document.createElement("input");
+        lockRadio.type = "radio";
+        lockRadio.name = `${user.username}Locked`;
+        lockRadio.value = "lock";
         lockRadio.checked = true;
-        profileCard.appendChild(lockRadio);
+        userCard.appendChild(lockRadio);
 
-        const unlockLabel = document.createElement('label');
-        unlockLabel.textContent = 'Unlock';
-        profileCard.appendChild(unlockLabel);
+        const unlockLabel = document.createElement("label");
+        unlockLabel.textContent = "Unlock";
+        userCard.appendChild(unlockLabel);
 
-        const unlockRadio = document.createElement('input');
-        unlockRadio.type = 'radio';
-        unlockRadio.name = `user${index}Locked`;
-        unlockRadio.value = 'unlock';
-        profileCard.appendChild(unlockRadio);
+        const unlockRadio = document.createElement("input");
+        unlockRadio.type = "radio";
+        unlockRadio.name = `${user.username}Locked`;
+        unlockRadio.value = "unlock";
+        userCard.appendChild(unlockRadio);
 
-        const hr = document.createElement('hr');
-        profileCard.appendChild(hr);
+        const hr = document.createElement("hr");
+        userCard.appendChild(hr);
 
-        const usernameLabel = document.createElement('label');
-        usernameLabel.textContent = 'Username';
-        profileCard.appendChild(usernameLabel);
+        const usernameLabel = document.createElement("label");
+        usernameLabel.textContent = "Username";
+        userCard.appendChild(usernameLabel);
 
-        const usernameInput = document.createElement('input');
-        usernameInput.type = 'text';
-        usernameInput.name = `user${index}Username`;
-        usernameInput.value = profile.username;
+        const usernameInput = document.createElement("input");
+        usernameInput.type = "text";
+        usernameInput.name = "user1Username";
+        usernameInput.value = user.username;
         usernameInput.disabled = true;
         usernameInput.readOnly = true;
-        profileCard.appendChild(usernameInput);
+        userCard.appendChild(usernameInput);
 
-        const hiddenFieldsContainer = document.createElement('div');
-        hiddenFieldsContainer.id = `user${index}HiddenFields`;
-        profileCard.appendChild(hiddenFieldsContainer);
+        const moreInfoDiv = document.createElement("div");
+        moreInfoDiv.classList.add("more-info");
+        moreInfoDiv.hidden = true;
 
-        const emailLabel = document.createElement('label');
-        emailLabel.textContent = 'Email:';
-        hiddenFieldsContainer.appendChild(emailLabel);
+        const moreInfoHr = document.createElement("hr");
+        moreInfoDiv.appendChild(moreInfoHr);
 
-        const emailInput = document.createElement('input');
-        emailInput.type = 'email';
-        emailInput.name = `user${index}Email`;
-        emailInput.value = profile.email;
+        const emailLabel = document.createElement("label");
+        emailLabel.textContent = "Email:";
+        moreInfoDiv.appendChild(emailLabel);
+
+        const emailInput = document.createElement("input");
+        emailInput.type = "email";
+        emailInput.name = "user1Email";
+        emailInput.value = user.email;
         emailInput.disabled = true;
         emailInput.readOnly = true;
-        hiddenFieldsContainer.appendChild(emailInput);
+        moreInfoDiv.appendChild(emailInput);
 
-        const ageLabel = document.createElement('label');
-        ageLabel.textContent = 'Age:';
-        hiddenFieldsContainer.appendChild(ageLabel);
+        const ageLabel = document.createElement("label");
+        ageLabel.textContent = "Age:";
+        moreInfoDiv.appendChild(ageLabel);
 
-        const ageInput = document.createElement('input');
-        ageInput.type = 'text';
-        ageInput.name = `user${index}Age`;
-        ageInput.value = profile.age;
+        const ageInput = document.createElement("input");
+        ageInput.type = "email";
+        ageInput.name = "user1Age";
+        ageInput.value = user.age;
         ageInput.disabled = true;
         ageInput.readOnly = true;
-        hiddenFieldsContainer.appendChild(ageInput);
+        moreInfoDiv.appendChild(ageInput);
 
-        const showMoreButton = document.createElement('button');
-        showMoreButton.textContent = 'Show more';
-        profileCard.appendChild(showMoreButton);
+        userCard.appendChild(moreInfoDiv);
 
-        showMoreButton.addEventListener('click', () => {
+        const showMoreButton = document.createElement("button");
+        showMoreButton.textContent = "Show more";
+        userCard.appendChild(showMoreButton);
+
+        showMoreButton.addEventListener("click", () => {
+            if (lockRadio.checked) return;
             if (unlockRadio.checked) {
-                hiddenFieldsContainer.style.display = 'block';
+                moreInfoDiv.hidden = !moreInfoDiv.hidden;
+                showMoreButton.textContent = moreInfoDiv.hidden ? "Show more" : "Hide it";
             }
         });
 
-        unlockRadio.addEventListener('change', () => {
-            hiddenFieldsContainer.style.display = 'none';
-        });
-
-        return profileCard;
-    }
-
-    async function renderProfiles() {
-        const main = document.getElementById('main');
-        const profilesData = await fetchProfiles();
-
-        if (profilesData) {
-            Object.keys(profilesData).forEach((key, index) => {
-                const profile = profilesData[key];
-                const profileCard = createProfileCard(profile, index + 1);
-                main.appendChild(profileCard);
-            });
-        }
-    }
-
+        mainElement.appendChild(userCard);
+    });
 }
+
+window.onload = lockedProfile;
