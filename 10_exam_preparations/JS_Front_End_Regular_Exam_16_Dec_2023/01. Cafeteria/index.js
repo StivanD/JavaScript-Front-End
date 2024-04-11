@@ -52,8 +52,8 @@ function solve(input) {
         currentCommand = input.shift();
     }
     
-    for (let barista of Object.entries(baristasObj)) {
-        console.log(`Barista: ${barista[0]}, Shift: ${barista[1]['shift']}, Drinks: ${barista[1]['coffeeTypes'].join(', ')}`);
+    for (let [baristaName, baristaInfo] of Object.entries(baristasObj)) {
+        console.log(`Barista: ${baristaName}, Shift: ${baristaInfo['shift']}, Drinks: ${baristaInfo['coffeeTypes'].join(', ')}`);
     }
 }
 
