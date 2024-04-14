@@ -1,7 +1,7 @@
 function solve(input) {
     let charactersCount = Number(input.shift());
 
-    heroesObj = {};
+    const heroesObj = {};
 
     const MAX_GUN_CAPACITY = 6;
     const MAX_HP = 100;
