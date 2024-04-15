@@ -20,52 +20,58 @@ function solve(input) {
     while (commandLine !== 'Ride Off Into Sunset') {
         const [operation, characterName, ...args] = commandLine.split(' - ');
 
-        if (operation === 'FireShot') {
-            const [target] = args;
+        switch (operation) {
+            case 'FireShot': {
+                const [target] = args;
 
-            if (heroesObj[characterName].bullets > 0) {
+                if (heroesObj[characterName].bullets <= 0) {
+                    console.log(`${characterName} doesn't have enough bullets to shoot at ${target}!`);
+                    break;
+                }
+
                 heroesObj[characterName].bullets -= 1;
-
-                console.log(`${characterName} has successfully hit ${target} and now has ${heroesObj[characterName].bullets} bullets!`)
+                console.log(`${characterName} has successfully hit ${target} and now has ${heroesObj[characterName].bullets} bullets!`);
+                break;
             }
-            else {
-                console.log(`${characterName} doesn't have enough bullets to shoot at ${target}!`);
-            }
-        }
-        else if (operation === 'TakeHit') {
-            const [damage, attacker] = args;
+            case 'TakeHit': {
+                const [damage, attacker] = args;
 
-            heroesObj[characterName].hp -= damage;
+                heroesObj[characterName].hp -= damage;
 
-            if (heroesObj[characterName].hp <= 0) {
+                if (heroesObj[characterName].hp > 0) {
+                    console.log(`${characterName} took a hit for ${damage} HP from ${attacker} and now has ${heroesObj[characterName].hp} HP!`);
+                    break;
+                }
+
                 console.log(`${characterName} was gunned down by ${attacker}!`);
                 delete heroesObj[characterName];
+                break;
             }
-            else {
-                console.log(`${characterName} took a hit for ${damage} HP from ${attacker} and now has ${heroesObj[characterName].hp} HP!`);
-            }
-        }
-        else if (operation === 'Reload') {
-            if (heroesObj[characterName].bullets < MAX_GUN_CAPACITY) {
+            case 'Reload': {
+                if (heroesObj[characterName].bullets >= MAX_GUN_CAPACITY) {
+                    console.log(`${characterName}'s pistol is fully loaded!`);
+                    break;
+                }
+
                 const reloadedBullets = MAX_GUN_CAPACITY - heroesObj[characterName].bullets;
                 heroesObj[characterName].bullets = MAX_GUN_CAPACITY;
 
                 console.log(`${characterName} reloaded ${reloadedBullets} bullets!`);
+                break;
             }
-            else {
-                console.log(`${characterName}'s pistol is fully loaded!`);
-            }
-        }
-        else if (operation === 'PatchUp') {
-            const [amount] = args;
+            case 'PatchUp': {
+                const [amount] = args;
 
-            if (heroesObj[characterName].hp < MAX_HP) {
+                if (heroesObj[characterName].hp >= MAX_HP) {
+                    console.log(`${characterName} is in full health!`);
+                    break;
+                }
+
                 const recoveredAmount = Math.min(Number(amount), MAX_HP - heroesObj[characterName].hp);
                 heroesObj[characterName].hp += recoveredAmount;
+
                 console.log(`${characterName} patched up and recovered ${recoveredAmount} HP!`);
-            }
-            else {
-                console.log(`${characterName} is in full health!`);
+                break;
             }
         }
 
